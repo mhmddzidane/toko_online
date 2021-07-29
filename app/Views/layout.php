@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Toko Online</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
 
@@ -37,8 +37,8 @@
 
     </main><!-- /.container -->
 
-    <script src="<?= base_url() ?>/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
-    <script src="<?= base_url() ?>/jquery-3.6.0.min.js"></script>
+    <script src="<?= base_url('jquery-3.6.0.min.js') ?>"></script>
+    <script src="<?= base_url('bootstrap-4.0.0/dist/js/bootstrap.min.js') ?>"></script>
 </body>
 
 </html>
