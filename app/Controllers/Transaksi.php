@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use TCPDF;
+
 class Transaksi extends BaseController
 {
     public function __construct()
@@ -24,5 +26,57 @@ class Transaksi extends BaseController
         return view('transaksi/view', [
             'transaksi' => $transaksi
         ]);
+    }
+
+    public function index()
+    {
+        $transaksiModel = new \App\Models\TransaksiModel();
+        $barangModel = new \App\Models\BarangModel();
+        $model = $transaksiModel->findAll();
+        return view('transaksi/index', [
+            'model' => $model
+        ]);
+        $model_barang = $barangModel->findAll();
+        return view('transaksi/index', [
+            'model_barang' => $model_barang
+        ]);
+    }
+
+    public function invoice()
+    {
+        $id = $this->request->uri->getSegment(3);
+
+        $transaksiModel = new \App\Models\TransaksiModel();
+        $transaksi = $transaksiModel->find($id);
+
+        $userModel =  new \App\Models\UserModel();
+        $pembeli = $userModel->find($transaksi->id_pembeli);
+
+        $barangModel = new \App\Models\BarangModel();
+        $barang = $barangModel->find($transaksi->id_barang);
+
+        $html =  view('transaksi/invoice', [
+            'transaksi' => $transaksi,
+            'pembeli' => $pembeli,
+            'barang' => $barang
+        ]);
+
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Toko Online Shop');
+        $pdf->SetTitle('Invoice');
+        $pdf->SetSubject('Invoice');
+
+        // $pdf->setPrintHeader(false);
+        // $pdf->setPrintFooter(false);
+
+        $pdf->addPage();
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $this->response->setContentType('application/pdf');
+
+        $pdf->Output('InvoiceTokoOnlineShop.pdf', 'I');
     }
 }
