@@ -62,6 +62,7 @@ class Auth extends BaseController
                     $sessData = [
                         'username' => $user->username,
                         'id' => $user->id,
+                        'role' => $user->role,
                         'isLoggedIn' => true
                     ];
                     $this->session->set($sessData);
