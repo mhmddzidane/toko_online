@@ -29,6 +29,10 @@ class Etalase extends BaseController
 
         $modelBarang = new \App\Models\BarangModel();
 
+        $modelKomentar = new \App\Models\KomentarModel();
+
+        $komentar = $modelKomentar->where('id_barang', $id)->findAll();
+
         $model = $modelBarang->find($id);
 
         $provinsi = $this->rajaongkir('province');
@@ -70,6 +74,7 @@ class Etalase extends BaseController
 
         return view('etalase/beli', [
             'model' => $model,
+            'komentar' => $komentar,
             'provinsi' => json_decode($provinsi)->rajaongkir->results,
         ]);
     }
